@@ -664,7 +664,6 @@ func run(ctx context.Context, request AnyRequest, m *Manager, r runner, ri *runI
 				localActionCounterVec.WithLabelValues("unrecoverable", kind).Inc()
 				localActionDurationVec.WithLabelValues("unrecoverable", "").Observe(time.Since(actionStartTime).Seconds())
 				span.SetAttributes(attribute.String("fsm.error_kind", kind))
-				logger.WithError(err).Error("reached unrecoverable error, canceling FSM")
 			case errors.As(err, &he):
 				localActionCounterVec.WithLabelValues("fsm_handoff_error", "").Inc()
 				localActionDurationVec.WithLabelValues("fsm_handoff_error", "").Observe(time.Since(actionStartTime).Seconds())
